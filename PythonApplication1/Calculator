@@ -1,0 +1,44 @@
+import tkinter as tk
+
+def calculate():
+    try:
+        result = eval(entry.get())
+        result_label.config(text="Result: " + str(result), font=("SF Thonburi", 18, "bold"))
+    except Exception as e:
+        result_label.config(text="Error: " + str(e), font=("SF Thonburi", 14))
+
+def clear_entry():
+    entry.delete(0, tk.END)
+    result_label.config(text="")
+
+# สร้างหน้าต่าง GUI (Graphic User Interface
+root = tk.Tk()
+root.title("Calculator")
+
+# สร้างช่องข้อมูลสำหรับป้อนข้อมูล
+entry = tk.Entry(root, width=40, borderwidth=5, font=("SF Thonburi", 14))
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+
+# สร้างปุ่มสำหรับการคำนวณ
+button_list = [
+    ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),
+    ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
+    ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
+    ("0", 4, 0), (".", 4, 1), ("+", 4, 2), ("=", 4, 3),
+    ("C", 5, 0) 
+]
+
+for (text, row, col) in button_list:
+    if text == "=":
+        button = tk.Button(root, text=text, padx=20, pady=10, command=calculate, font=("SF Thonburi", 14))
+    elif text == "C":
+        button = tk.Button(root, text=text, padx=20, pady=10, command=clear_entry, font=("SF Thonburi", 14))
+    else:
+        button = tk.Button(root, text=text, padx=20, pady=10, command=lambda t=text: entry.insert(tk.END, t), font=("SF Thonburi", 14))
+    button.grid(row=row, column=col)
+
+# สร้างป้ายแสดงผลลัพธ์
+result_label = tk.Label(root, text="", font=("SF Thonburi", 18))
+result_label.grid(row=6, column=0, columnspan=4)
+
+root.mainloop()
